@@ -20,3 +20,17 @@ The IDE using :
 ```sh
 npm run electron:start
 ```
+
+## Delivery
+- [ ] 1st delivery : 20/03/2023 :
+    - Contents :
+        - [ ] 1.1 : Creation File
+        - [ ] 1.2 : Saving File
+        - [ ] 1.3 : Deleting File
+        - [ ] 1.4 : Renaming File
+        - [ ] 1.5 : Intregration of Monaco Editor
+    
+- [ ] 2nd delivery : 10/04/2024 :
+    - Contents :
+        - [ ] 2.1 : Figma Design
+        - [ ] 2.2 : V1 of the IDE
