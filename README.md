@@ -30,7 +30,7 @@ npm run electron:start
         - [ ] 1.4 : Renaming File
         - [ ] 1.5 : Intregration of Monaco Editor
     
-- [ ] 2nd delivery : 10/04/2024 :
+- [ ] 2nd delivery : 10/04/2023 :
     - Contents :
         - [ ] 2.1 : Figma Design
         - [ ] 2.2 : V1 of the IDE
