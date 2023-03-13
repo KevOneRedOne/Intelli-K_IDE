@@ -2,6 +2,7 @@
 const { app, BrowserWindow, protocol, dialog, Menu } = require("electron");
 const { ipcMain } = require("electron/main");
 const path = require("path");
+const fs = require("fs");
 const url = require("url");
 const IDEtemplate = require("./menuTemplate");
 
@@ -21,6 +22,7 @@ function createWindow() {
     },
   });
 
+  //open file dialog
   ipcMain.on('open-file-dialog', event => {
     dialog.showOpenDialog(mainWindow, {
       properties: ['openFile', 'openDirectory']

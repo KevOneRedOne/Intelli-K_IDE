@@ -1,6 +1,8 @@
 const { app, Menu, dialog } = require('electron');
 const isMac = process.platform === 'darwin'
+const mainWindow = require("./electron.js");
 const fs = require("fs");
+const filePath = "C:\\2 - VSCode_Projet\\Electron_Projets\\Intelli-K\\test_file\\text.txt";
 
 const IDEtemplate = [
     // { role: 'appMenu' }
@@ -26,8 +28,39 @@ const IDEtemplate = [
             accelerator: 'CmdOrCtrl+N',
             click: () => {
               // Code pour créer un nouveau fichier
+                dialog.showSaveDialog({
+                    properties: ['createFile'],
+                    filters: [
+                        { name: 'Text Files', extensions: ['txt'] },
+                        { name: 'Markdown Files', extensions: ['md', 'markdown'] },
+                        { name: 'All Files', extensions: ['*'] }
+                    ],
+                    defaultPath: "C:\\2 - VSCode_Projet\\Electron_Projets\\Intelli-K\\test_file\\text.txt"
+                }).then(function (fileObj) {
+                    fs.writeFile(fileObj.filePath, "Hello World", (err) => {
+                        if (err) {
+                            console.error(err)
+                            return
+                        }
+                        if(!fileObj.canceled) {
+                            fs.readFile(fileObj.filePath, 'utf8', (err, data) => {
+                                if (err) {
+                                    console.error(err)
+                                    return
+                                }
+                                mainWindow.webContents.send('FILE_OPEN', fileObj.filePath);
+                            });
+                        }
+                    });
+                })
+                    // should always handle the error yourself, later Electron release might crash if you don't
+                    .catch(function (err) {
+                        console.error(err);
+                    }
+                );
             },
           },
+          { type: 'separator' },
           {
             label: 'Open File',
             accelerator: 'CmdOrCtrl+O',
@@ -50,8 +83,8 @@ const IDEtemplate = [
           },
           {
             label: 'Open Folder',
-            accelerator: 'CmdOrCtrl+O',
-            click: () => {
+            accelerator: 'CmdOrCtrl+K',
+            click() {
                 // construct the select file dialog
                 dialog.showOpenDialog({
                     properties: ['openDirectory']
@@ -61,7 +94,7 @@ const IDEtemplate = [
                         mainWindow.webContents.send('FILE_OPEN', fileObj.filePaths);
                     }
                 });
-            },
+            }
           },
           {
             label: 'Save File',
