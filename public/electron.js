@@ -1,5 +1,6 @@
 // Module to control the application lifecycle and the native browser window.
-const { app, BrowserWindow, protocol } = require("electron");
+const { app, BrowserWindow, protocol, dialog, Menu } = require("electron");
+const { ipcMain } = require("electron/main");
 const path = require("path");
 const url = require("url");
 
@@ -9,6 +10,7 @@ function createWindow() {
     width: 800,
     height: 600,
     icon: path.join(__dirname, "favicon.ico"),
+    // frame: false,
     // Set the path of an additional "preload" script that can be used to
     // communicate between node-land and browser-land.
     webPreferences: {
@@ -16,6 +18,23 @@ function createWindow() {
       nodeIntegration: true,
     },
   });
+
+  ipcMain.on('open-file-dialog', event => {
+    dialog.showOpenDialog(mainWindow, {
+      properties: ['openFile', 'openDirectory']
+    })
+    .then(result => { // se lance quand on a selectionner le fichier
+      event.reply('selected-file', result.filePaths[0]) // envoie le chemin du fichier selectionner
+    })
+    .catch(err => {
+      console.log(err)
+      dialog.showErrorBox('Error', 'Something went wrong')
+    })
+  });
+
+
+
+
 
   // In production, set the initial browser path to the local bundle generated
   // by the Create React App build process.
@@ -31,7 +50,7 @@ function createWindow() {
 
   // Automatically open Chrome's DevTools in development mode.
   if (!app.isPackaged) {
-    mainWindow.webContents.openDevTools();
+    // mainWindow.webContents.openDevTools();
   }
 }
 
