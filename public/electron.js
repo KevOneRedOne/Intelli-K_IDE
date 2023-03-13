@@ -3,10 +3,12 @@ const { app, BrowserWindow, protocol, dialog, Menu } = require("electron");
 const { ipcMain } = require("electron/main");
 const path = require("path");
 const url = require("url");
+const IDEtemplate = require("./menuTemplate");
 
 // Create the native browser window.
 function createWindow() {
   const mainWindow = new BrowserWindow({
+    IDEtemplate,
     width: 800,
     height: 600,
     icon: path.join(__dirname, "favicon.ico"),
@@ -31,9 +33,6 @@ function createWindow() {
       dialog.showErrorBox('Error', 'Something went wrong')
     })
   });
-
-
-
 
 
   // In production, set the initial browser path to the local bundle generated

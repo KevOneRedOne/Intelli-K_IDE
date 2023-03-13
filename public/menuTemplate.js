@@ -1,4 +1,4 @@
-const { app, Menu } = require('electron');
+const { app, Menu, dialog } = require('electron');
 const isMac = process.platform === 'darwin'
 const fs = require("fs");
 
@@ -18,7 +18,6 @@ const IDEtemplate = [
             { role: 'quit' }
         ]
     }] : []),
-    // { role: 'fileMenu' }
     {
         label: 'File',
         submenu: [
@@ -33,7 +32,35 @@ const IDEtemplate = [
             label: 'Open File',
             accelerator: 'CmdOrCtrl+O',
             click: () => {
-              // Code pour ouvrir un fichier
+                // construct the select file dialog
+                dialog.showOpenDialog({
+                    properties: ['openFile']
+                })
+                    .then(function (fileObj) {
+                    // the fileObj has two props
+                    if (!fileObj.canceled) {
+                        mainWindow.webContents.send('FILE_OPEN', fileObj.filePaths);
+                    }
+                })
+                    // should always handle the error yourself, later Electron release might crash if you don't
+                    .catch(function (err) {
+                    console.error(err);
+                });
+            },
+          },
+          {
+            label: 'Open Folder',
+            accelerator: 'CmdOrCtrl+O',
+            click: () => {
+                // construct the select file dialog
+                dialog.showOpenDialog({
+                    properties: ['openDirectory']
+                }) // the fileObj has two props
+                    .then(function (fileObj) {
+                    if (!fileObj.canceled) {
+                        mainWindow.webContents.send('FILE_OPEN', fileObj.filePaths);
+                    }
+                });
             },
           },
           {
@@ -66,49 +93,6 @@ const IDEtemplate = [
             },
           },
         ],
-    },
-    {
-        label: 'File',
-        submenu: [
-            {
-                label: 'Open File',
-                accelerator: 'CmdOrCtrl+O',
-                // this is the main bit hijack the click event
-                click() {
-                    // construct the select file dialog
-                    dialog.showOpenDialog({
-                        properties: ['openFile']
-                    })
-                        .then(function (fileObj) {
-                        // the fileObj has two props
-                        if (!fileObj.canceled) {
-                            mainWindow.webContents.send('FILE_OPEN', fileObj.filePaths);
-                        }
-                    })
-                        // should always handle the error yourself, later Electron release might crash if you don't
-                        .catch(function (err) {
-                        console.error(err);
-                    });
-                }
-            },
-            {
-                label: 'Open workspace',
-                accelerator: 'CmdOrCtrl+K',
-                // this is the main bit hijack the click event
-                click() {
-                    // construct the select file dialog
-                    dialog.showOpenDialog({
-                        properties: ['openDirectory']
-                    }) // the fileObj has two props
-                        .then(function (fileObj) {
-                        if (!fileObj.canceled) {
-                            mainWindow.webContents.send('FILE_OPEN', fileObj.filePaths);
-                        }
-                    });
-                }
-            },
-            isMac ? { role: 'close' } : { role: 'quit' }
-        ]
     },
     // { role: 'editMenu' }
     {
