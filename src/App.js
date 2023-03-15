@@ -1,54 +1,30 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import TextEditor from "./components/TextEditor/TextEditor";
 import FileExplorer from "./components/FileExplorer/FileExplorer"
 import NavBar from "./components/NavBar/NavBar";
 import styled from "styled-components";
+import OpenedFilesContext from "./helpers/OpenedFilesContext";
 
 function App() {
-
-  const openedFiles = useContext([
-    {
-      fileName: "NavBar.js",
-      active: false,
-      unsavedContent: "Hello world"
-    },
-    {
-      fileName: "FileExplorer.js",
-      active: false,
-      unsavedContent: undefined
-    }, 
-    {
-      fileName: "App.js",
-      active: true,
-      unsavedContent: "Toto"
-    }
+  const [activeTab, setActiveTab] = useState(0);
+  const [openedFiles, setOpenedFiles] = useState([
+    { fileName: 'index.html', content: 'This is the content for Tab 1' },
+    { fileName: 'FileExplorer.js', content: 'This is the content for Tab 2' },
+    { fileName: 'style.css', content: 'This is the content for Tab 3' }
   ]);
 
-  const a = {
-    "NavBar.js" : {
-      active: false,
-      unsavedContent: "Hello world"
-    },
-    "FileExplorer.js": {
-      active: false,
-      unsavedContent: undefined
-    }, 
-    "App.js": {
-      active: true,
-      unsavedContent: "Toto"
-    }
-  }
-
   return (
-    <StyledDiv className="App">
-      <StyledLeftDiv>
-        <FileExplorer/>
-      </StyledLeftDiv>
-      <StyledRightDiv>
-        <NavBar/>
-        <TextEditor/>
-      </StyledRightDiv>
-    </StyledDiv>
+    <OpenedFilesContext.Provider value={{ activeTab, setActiveTab, openedFiles, setOpenedFiles }}>
+      <StyledDiv className="App">
+        <StyledLeftDiv>
+          <FileExplorer/>
+        </StyledLeftDiv>
+        <StyledRightDiv>
+          <NavBar/>
+          <TextEditor/>
+        </StyledRightDiv>
+      </StyledDiv>
+    </OpenedFilesContext.Provider>
   );
 }
 

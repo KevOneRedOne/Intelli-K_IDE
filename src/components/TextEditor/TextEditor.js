@@ -1,7 +1,8 @@
 import Editor from "@monaco-editor/react";
 import * as monaco from "monaco-editor";
 import { loader } from "@monaco-editor/react";
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect, useState, useContext } from "react";
+import OpenedFilesContext from '../../helpers/OpenedFilesContext.js';
 // import fs from "fs";
 
 
@@ -25,6 +26,7 @@ monaco.editor.defineTheme('Purple-Theme', {
 // }
 
 const TextEditor = () => {
+    const { activeTab } = useContext(OpenedFilesContext);
     const [filePath, setFilePath] = useState(null);
     // const [fileContent, setFileContent] = useState(null);
     const editorRef = useRef(null);
@@ -34,7 +36,8 @@ const TextEditor = () => {
             // LoadFileInEditor(filePath, editorRef.current);
             console.log("filePath: ", filePath);
         }
-    }, [filePath]);
+        console.log(activeTab)
+    }, [filePath, activeTab]);
 
     const handleEditorDidMount = (editor, monaco) => {
       editorRef.current = editor; 
@@ -45,7 +48,7 @@ const TextEditor = () => {
             <Editor
                 height="96.9vh"
                 defaultLanguage="javascript"
-                defaultValue="function helloWorld() {console.log('Tu vas bosser merde ?')}"
+                defaultValue={activeTab}
                 onMount={handleEditorDidMount}
                 theme="Purple-Theme"
             />

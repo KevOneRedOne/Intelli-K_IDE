@@ -1,8 +1,7 @@
 const { app, Menu, dialog } = require('electron');
-const isMac = process.platform === 'darwin'
+const isMac = process.platform === 'darwin';
 const mainWindow = require("./electron.js");
-const fs = require("fs");
-const filePath = "C:\\2 - VSCode_Projet\\Electron_Projets\\Intelli-K\\test_file\\text.txt";
+const FilesFunctions = require('../src/helpers/FilesFunctions.js');
 
 const IDEtemplate = [
     // { role: 'appMenu' }
@@ -26,82 +25,23 @@ const IDEtemplate = [
           {
             label: 'New File',
             accelerator: 'CmdOrCtrl+N',
-            click: () => {
-              // Code pour créer un nouveau fichier
-                dialog.showSaveDialog({
-                    properties: ['createFile'],
-                    filters: [
-                        { name: 'Text Files', extensions: ['txt'] },
-                        { name: 'Markdown Files', extensions: ['md', 'markdown'] },
-                        { name: 'All Files', extensions: ['*'] }
-                    ],
-                    defaultPath: "C:\\2 - VSCode_Projet\\Electron_Projets\\Intelli-K\\test_file\\text.txt"
-                }).then(function (fileObj) {
-                    fs.writeFile(fileObj.filePath, "Hello World", (err) => {
-                        if (err) {
-                            console.error(err)
-                            return
-                        }
-                        if(!fileObj.canceled) {
-                            fs.readFile(fileObj.filePath, 'utf8', (err, data) => {
-                                if (err) {
-                                    console.error(err)
-                                    return
-                                }
-                                mainWindow.webContents.send('FILE_OPEN', fileObj.filePath);
-                            });
-                        }
-                    });
-                })
-                    // should always handle the error yourself, later Electron release might crash if you don't
-                    .catch(function (err) {
-                        console.error(err);
-                    }
-                );
-            },
+            click: FilesFunctions.createNewFile,
           },
           { type: 'separator' },
           {
             label: 'Open File',
             accelerator: 'CmdOrCtrl+O',
-            click: () => {
-                // construct the select file dialog
-                dialog.showOpenDialog({
-                    properties: ['openFile']
-                })
-                    .then(function (fileObj) {
-                    // the fileObj has two props
-                    if (!fileObj.canceled) {
-                        mainWindow.webContents.send('FILE_OPEN', fileObj.filePaths);
-                    }
-                })
-                    // should always handle the error yourself, later Electron release might crash if you don't
-                    .catch(function (err) {
-                    console.error(err);
-                });
-            },
+            click: FilesFunctions.OpenFile,
           },
           {
             label: 'Open Folder',
             accelerator: 'CmdOrCtrl+K',
-            click() {
-                // construct the select file dialog
-                dialog.showOpenDialog({
-                    properties: ['openDirectory']
-                }) // the fileObj has two props
-                    .then(function (fileObj) {
-                    if (!fileObj.canceled) {
-                        mainWindow.webContents.send('FILE_OPEN', fileObj.filePaths);
-                    }
-                });
-            }
+            click: FilesFunctions.OpenFolder,
           },
           {
             label: 'Save File',
             accelerator: 'CmdOrCtrl+S',
-            click: () => {
-              // Code pour enregistrer un fichier
-            },
+            click: FilesFunctions.SaveFile,
           },
           {
             label: 'Save File As',
@@ -114,16 +54,16 @@ const IDEtemplate = [
           {
             label: 'Close File',
             accelerator: 'CmdOrCtrl+W',
-            click: () => {
-              // Code pour fermer un fichier
-            },
+            click: FilesFunctions.CloseFile,
+          },
+          {
+            label: 'Close Folder',
+            accelerator: 'CmdOrCtrl+Shift+W',
+            click: FilesFunctions.CloseFolder,
           },
           {
             label: 'Quit',
-            accelerator: 'CmdOrCtrl+Q',
-            click: () => {
-              app.quit();
-            },
+            click: FilesFunctions.Quit,
           },
         ],
     },
@@ -154,9 +94,12 @@ const IDEtemplate = [
                 { type: 'separator' },
                 { role: 'selectAll' }
             ])
-        ]
+        ] 
     },
-    // { role: 'viewMenu' }
+    // { role: 'viewMenu' },
+    {
+        label: 'Selection'
+    },
     {
         label: 'View',
         submenu: [
@@ -171,7 +114,7 @@ const IDEtemplate = [
             { role: 'togglefullscreen' }
         ]
     },
-    // { role: 'windowMenu' }
+    // { role: 'windowMenu' },
     {
         label: 'Window',
         submenu: [
@@ -187,6 +130,9 @@ const IDEtemplate = [
             ])
         ]
     },
+    {label:'Run'},
+    {label:'Git'},
+    {label:'Terminal'},
     {
         role: 'help',
         submenu: [

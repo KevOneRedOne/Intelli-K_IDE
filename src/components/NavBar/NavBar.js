@@ -1,38 +1,25 @@
 /* eslint-disable default-case */
+import React, { useContext } from 'react';
 import styled, { css } from "styled-components";
 import * as Styled from "./NavBar.style.js";
+import OpenedFilesContext from '../../helpers/OpenedFilesContext.js';
 
 const extensionRegEx = /(?:\.([^.]+))?$/;
 
-const NavBar = () => {
-  const a = [
-    {
-      fileName: "index.html",
-      active: false,
-      unsavedContent: "Hello world"
-    },
-    {
-      fileName: "FileExplorer.js",
-      active: true,
-      unsavedContent: undefined
-    }, 
-    {
-      fileName: "style.css",
-      active: false,
-      unsavedContent: "Toto"
-    }
-  ];
-    
+const NavBar = (props) => {
+  const { activeTab, setActiveTab, openedFiles } = useContext(OpenedFilesContext);
     return (
-        <Styled.NavBar>
-            {a.map(tab => <Tab tab={tab}></Tab>)}
-        </Styled.NavBar>        
+      <Styled.NavBar>
+          {openedFiles.map((tab, index) => (
+            <Tab data-active={activeTab === index} data-fileName={tab.fileName} onClick={() => setActiveTab(index)}></Tab>
+          ))}
+      </Styled.NavBar>    
     )
 
 }
 
 const Tab = (props) => {
-
+  const { activeTab, setActiveTab } = useContext(OpenedFilesContext);
   function getIconContent(fileName) {
     const extension = extensionRegEx.exec(fileName)[1]?.toUpperCase();
 
@@ -47,8 +34,8 @@ const Tab = (props) => {
   }
 
   return (
-    <Styled.Tab data-active={props.tab.active}>
-      <Styled.FileLabel data-fileType={getIconContent(props.tab.fileName)}>{props.tab.fileName}</Styled.FileLabel>
+    <Styled.Tab data-active={props['data-active']} onClick={props.onClick}>
+      <Styled.FileLabel data-fileType={getIconContent(props['data-fileName'])}>{props['data-fileName']}</Styled.FileLabel>
       <Styled.CloseButton role="button"/>
     </Styled.Tab>
   )

@@ -43,7 +43,7 @@ export const CloseButton = styled.a`
 
     &:before {
         color: rgb(255, 255, 255);
-        content: '🗙';
+        content: '×';
     }
 `
 
