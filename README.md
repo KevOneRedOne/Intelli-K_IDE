@@ -26,11 +26,8 @@ npm run electron:start
     - Contents :
         - [ ] 1.1 : Creation File
         - [ ] 1.2 : Saving File
-        - [ ] 1.3 : Deleting File
-        - [ ] 1.4 : Renaming File
-        - [ ] 1.5 : Intregration of Monaco Editor
+        - [ ] 1.3 : Intregration of Monaco Editor
     
 - [ ] 2nd delivery : 10/04/2023 :
     - Contents :
-        - [ ] 2.1 : Figma Design
-        - [ ] 2.2 : V1 of the IDE
+        - [ ] 2.1 : V1 of the IDE
