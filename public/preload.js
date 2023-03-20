@@ -16,7 +16,10 @@ process.once("loaded", () => {
     },
     removeEventListener: () => {
       ipcRenderer.removeAllListeners('selected-file')
-    }
+    },
+    saveFile: (data) => {
+      ipcRenderer.send('save-file-dialog', data);
+    },
   })
 
 });

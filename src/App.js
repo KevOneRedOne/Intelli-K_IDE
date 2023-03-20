@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import TextEditor from "./components/TextEditor/TextEditor";
 import FileExplorer from "./components/FileExplorer/FileExplorer"
 import NavBar from "./components/NavBar/NavBar";

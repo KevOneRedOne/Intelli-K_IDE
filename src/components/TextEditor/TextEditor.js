@@ -19,11 +19,12 @@ monaco.editor.defineTheme('Purple-Theme', {
 const TextEditor = () => {
     const { activeTab } = useContext(OpenedFilesContext);
     const [filePath, setFilePath] = useState(null);
-    const [fileContent, setFileContent] = useState(null);
+    const [fileContent, setFileContent] = useState();
     const editorRef = useRef(null);
 
     useEffect(() => {
         if (filePath) {
+            window.dialog.loadFile(filePath);
             // LoadFileInEditor(filePath, editorRef.current);
             console.log("filePath: ", filePath);
         };
@@ -36,18 +37,20 @@ const TextEditor = () => {
     }
 
     const SaveData = () => {
-        alert(editorRef.current.getValue());
-        // setFileContent(editorRef.current.getValue());
+        window.dialog.saveFile(editorRef.current.getValue());
     }
 
     return (
         <>
+            
             <button onClick={SaveData}>Save</button>
             <Editor
                 height="96.9vh"
+                //TODO: gestion du langage
                 defaultLanguage="javascript"
-                // defaultValue={activeTab}
-                defaultValue="function main() {console.log('Hello World!');}"
+                defaultValue={activeTab}
+                value={fileContent}
+                onChange={e => setFileContent(e)}
                 onMount={handleEditorDidMount}
                 theme="Purple-Theme"
                 // onChange={handleEditorDidMount}

@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import styled from "styled-components";
 import * as Styled from "./FileExplorer.style.js";
 import { AiOutlineFile, AiOutlineFolder } from "react-icons/ai";
 import { DiJavascript1, DiCss3Full, DiHtml5, DiReact } from "react-icons/di";

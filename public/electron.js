@@ -23,19 +23,60 @@ function createWindow() {
   });
 
   //open file dialog
-  ipcMain.on('open-file-dialog', event => {
-    dialog.showOpenDialog(mainWindow, {
-      properties: ['openFile', 'openDirectory']
-    })
-    .then(result => { // se lance quand on a selectionner le fichier
-      event.reply('selected-file', result.filePaths[0]) // envoie le chemin du fichier selectionner
-    })
-    .catch(err => {
-      console.log(err)
-      dialog.showErrorBox('Error', 'Something went wrong')
-    })
+  ipcMain.on("open-file-dialog", (event) => {
+    dialog
+      .showOpenDialog(mainWindow, {
+        properties: ["openFile", "openDirectory"],
+      })
+      .then((result) => {
+        // se lance quand on a selectionner le fichier
+        event.reply("selected-file", result.filePaths[0]); // envoie le chemin du fichier selectionner
+      })
+      .catch((err) => {
+        console.log(err);
+        dialog.showErrorBox("Error", "Something went wrong");
+      });
   });
 
+  //save file dialog
+  ipcMain.on("save-file-dialog", (event, data) => {
+    dialog
+      .showSaveDialog({
+        properties: ["saveFile"],
+        filters: [
+          { name: "Fichiers texte", extensions: ["txt"] },
+          { name: "Fichiers Markdown", extensions: ["md", "markdown"] },
+          { name: "Fichiers HTML", extensions: ["html", "html"] },
+          { name: "Fichiers CSS", extensions: ["css", "css"] },
+          { name: "Fichiers JavaScript", extensions: ["js", "js"] },
+          { name: "Fichiers JSON", extensions: ["json", "json"] },
+          { name: "Tous les fichiers", extensions: ["*"] },
+        ],
+      })
+      .then((fileObj) => {
+        if (!fileObj.canceled) {
+          const filePath = fileObj.filePath;
+          fs.writeFile(filePath, data, "utf-8", (err) => {
+            if (err) {
+              console.error(err);
+              throw err;
+            }
+            // Send a message to the renderer process to open the saved file
+            if (mainWindow && mainWindow.webContents) {
+              mainWindow.webContents.send("FILE_SAVED", filePath);
+            }
+          });
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+        // Show an error dialog to the user
+        dialog.showErrorBox(
+          "Erreur lors de la sauvegarde du fichier",
+          err.message
+        );
+      });
+  });
 
   // In production, set the initial browser path to the local bundle generated
   // by the Create React App build process.
