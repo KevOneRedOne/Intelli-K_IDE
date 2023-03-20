@@ -46,9 +46,7 @@ const IDEtemplate = [
           {
             label: 'Save File As',
             accelerator: 'CmdOrCtrl+Shift+S',
-            click: () => {
-              // Code pour enregistrer un fichier sous un autre nom
-            },
+            click: FilesFunctions.SaveFileAs,
           },
           { type: 'separator' },
           {
@@ -98,9 +96,6 @@ const IDEtemplate = [
     },
     // { role: 'viewMenu' },
     {
-        label: 'Selection'
-    },
-    {
         label: 'View',
         submenu: [
             { role: 'reload' },
@@ -130,9 +125,98 @@ const IDEtemplate = [
             ])
         ]
     },
-    {label:'Run'},
-    {label:'Git'},
-    {label:'Terminal'},
+    {
+        label:'Run',
+        submenu: [
+            {
+              label: 'Run Project',
+              accelerator: 'F5',
+            //   click: RunFunctions.runProject,
+            },
+            {
+              label: 'Debug Project',
+              accelerator: 'F6',
+            //   click: RunFunctions.debugProject,
+            },
+            {
+              type: 'separator',
+            },
+            {
+              label: 'Run File',
+              accelerator: 'CmdOrCtrl+R',
+            //   click: RunFunctions.runFile,
+            },
+            {
+              label: 'Debug File',
+              accelerator: 'CmdOrCtrl+Shift+D',
+            //   click: RunFunctions.debugFile,
+            },
+          ],
+    },
+    {
+        label:'Git',
+        submenu: [
+            {
+              label: 'Init Repository',
+            //   click: GitFunctions.InitRepository,
+            },
+            {
+              label: 'Add Files',
+            //   click: GitFunctions.AddFiles,
+            },
+            {
+              label: 'Commit Changes',
+            //   click: GitFunctions.CommitChanges,
+            },
+            {
+              label: 'Push Changes',
+            //   click: GitFunctions.PushChanges,
+            },
+            {
+              label: 'Pull Changes',
+            //   click: GitFunctions.PullChanges,
+            },
+            {
+              type: 'separator',
+            },
+            {
+              label: 'Git Log',
+            //   click: GitFunctions.GitLog,
+            },
+            {
+              label: 'Git Status',
+            //   click: GitFunctions.GitStatus,
+            },
+        ],
+    },
+    {
+        label:'Terminal',
+        submenu: [
+            {
+              label: 'New Terminal',
+              accelerator: 'CmdOrCtrl+Shift+T',
+            //   click: TerminalFunctions.createNewTerminal,
+            },
+            {
+              label: 'Close Terminal',
+              accelerator: 'CmdOrCtrl+Shift+Q',
+            //   click: TerminalFunctions.closeCurrentTerminal,
+            },
+            {
+              type: 'separator',
+            },
+            {
+              label: 'Run Command...',
+              accelerator: 'CmdOrCtrl+Shift+C',
+            //   click: TerminalFunctions.runCommand,
+            },
+            {
+              label: 'Run Script...',
+              accelerator: 'CmdOrCtrl+Shift+S',
+            //   click: TerminalFunctions.runScript,
+            },
+        ],
+    },
     {
         role: 'help',
         submenu: [

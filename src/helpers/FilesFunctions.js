@@ -2,18 +2,26 @@ const { app, dialog } = require('electron');
 const fs = require('fs');
 const mainWindow = require("../../public/electron.js");
 
-exports.createNewFile = () => {
+exports.createNewFile = ({content}) => {
+  if(!content){
+    content = "Ecrit ton code ici";
+  }
   dialog.showSaveDialog({
     properties: ['createFile'],
     filters: [
       { name: 'Fichiers texte', extensions: ['txt'] },
       { name: 'Fichiers Markdown', extensions: ['md', 'markdown'] },
+      { name: 'Fichiers HTML', extensions: ['html', 'html'] },
+      { name: 'Fichiers CSS', extensions: ['css', 'css'] },
+      { name: 'Fichiers JavaScript', extensions: ['js', 'js'] },
+      { name: 'Fichiers JSON', extensions: ['json', 'json'] },
       { name: 'Tous les fichiers', extensions: ['*'] }
     ],
   }).then(fileObj => {
     if (!fileObj.canceled) {
       const filePath = fileObj.filePath;
-      fs.writeFile(filePath, "// Write your content", err => {
+      
+      fs.writeFile(filePath, "Ecrit ton code ici", err => {
         if (err) {
           console.error(err);
           throw err;
@@ -93,8 +101,8 @@ exports.OpenFolder = () => {
 
 exports.SaveFile = (content, defaultPath, filters) => {
   dialog.showSaveDialog({
-    defaultPath: defaultPath,
-    filters: filters
+    // defaultPath: defaultPath,
+    // filters: filters
   })
   .then(fileObj => {
     if (!fileObj.canceled) {
@@ -116,6 +124,9 @@ exports.SaveFile = (content, defaultPath, filters) => {
     // Show an error dialog to the user
     dialog.showErrorBox('Erreur lors de la sauvegarde du fichier', err.message);
   });
+};
+
+exports.SaveAsFile = (content, defaultPath, filters) => {
 };
 
 exports.CloseFile = () => {

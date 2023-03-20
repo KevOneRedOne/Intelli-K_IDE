@@ -10,7 +10,7 @@ const NavBar = (props) => {
     return (
       <Styled.NavBar>
           {openedFiles.map((tab, index) => (
-            <Tab data-active={activeTab === index} data-fileName={tab.fileName}  data-tab-index={index} onClick={() => setActiveTab(index)}></Tab>
+            <Tab data-active={activeTab === index} data-filename={tab.fileName}  data-tab-index={index} onClick={() => setActiveTab(index)}></Tab>
           ))}
       </Styled.NavBar>    
     )
@@ -19,7 +19,7 @@ const NavBar = (props) => {
 
 const Tab = (props) => {
   const { openedFiles, setOpenedFiles } = useContext(OpenedFilesContext);
-  function getIconContent(fileName) {
+  const getIconContent = (fileName) => {
     const extension = extensionRegEx.exec(fileName)[1]?.toUpperCase();
 
     switch(extension) {
@@ -32,7 +32,7 @@ const Tab = (props) => {
     }
   }
 
-  function handleTabClose(index) {
+  const handleTabClose = (index) => {
     const tmpOpenedFiles = openedFiles;
     delete tmpOpenedFiles[index];
     setOpenedFiles(tmpOpenedFiles);
@@ -40,7 +40,7 @@ const Tab = (props) => {
 
   return (
     <Styled.Tab data-active={props['data-active']} onClick={props.onClick}>
-      <Styled.FileLabel data-fileType={getIconContent(props['data-fileName'])}>{props['data-fileName']}</Styled.FileLabel>
+      <Styled.FileLabel data-filetype={getIconContent(props['data-filename'])}>{props['data-filename']}</Styled.FileLabel>
       <Styled.CloseButton role="button" onClick={() => handleTabClose(props['data-tab-index'])}/>
     </Styled.Tab>
   )

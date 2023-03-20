@@ -28,7 +28,7 @@ export const FileLabel = styled.span`
         font-weight: bold;
         padding-right: 6px;
         color: #cbcb41;
-        content: '${props => !!props['data-fileType'] ? props['data-fileType'] : "#"}';
+        content: '${props => !!props['data-filetype'] ? props['data-filetype'] : "#"}';
     }
 `
 
