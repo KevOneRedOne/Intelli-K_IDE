@@ -25,9 +25,17 @@ npm run electron:start
 - [ ] 1st delivery : 20/03/2023 :
     - Contents :
         - [ ] 1.1 : Creation File
-        - [ ] 1.2 : Saving File
-        - [ ] 1.3 : Intregration of Monaco Editor
+        - [X] 1.2 : Saving File
+        - [X] 1.3 : Intregration of Monaco Editor
     
 - [ ] 2nd delivery : 10/04/2023 :
     - Contents :
         - [ ] 2.1 : V1 of the IDE
+
+
+## Link to the video of the project :
+- Part 1
+[![Watch the video](https://i9.ytimg.com/vi_webp/yhwlpI0G07E/mq2.webp?sqp=CPCT0aEG-oaymwEmCMACELQB8quKqQMa8AEB-AH-CIAC0AWKAgwIABABGFggVChlMA8=&rs=AOn4CLC2oyuLxBF_ZX3i00lTgPeJiQMraw)](https://youtu.be/yhwlpI0G07E)
+
+- Part 2 
+[![Watch the video](https://i9.ytimg.com/vi_webp/yhwlpI0G07E/mq2.webp?sqp=CPCT0aEG-oaymwEmCMACELQB8quKqQMa8AEB-AH-CIAC0AWKAgwIABABGFggVChlMA8=&rs=AOn4CLC2oyuLxBF_ZX3i00lTgPeJiQMraw)](https://youtu.be/4OXW2RUVL18)
